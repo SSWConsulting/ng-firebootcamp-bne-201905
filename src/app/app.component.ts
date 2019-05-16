@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Company } from './company/company';
 
 @Component({
   selector: 'fbc-root',
@@ -7,10 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'firebootcamp-crm';
-
-  titleChanged(event) {
-    console.log('TITLE CHANGED', event);
-    this.title = event.target.value;
-  }
 
 }
