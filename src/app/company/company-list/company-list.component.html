@@ -2,9 +2,17 @@
   <button class="btn btn-success"> Add </button>
 
   <fbc-company-table
+  [tableName]="'Jean'"
   [companies]="companies$ | async"
   (companyDeleted)="deleteCompany($event)"
   ></fbc-company-table>
+
+  <fbc-company-table
+  [tableName]="'Brendan'"
+  [companies]="companies$ | async"
+  (companyDeleted)="sayHello($event)"
+  ></fbc-company-table>
+
 </div>
 
 

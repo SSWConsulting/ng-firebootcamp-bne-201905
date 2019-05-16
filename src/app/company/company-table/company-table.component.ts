@@ -10,6 +10,9 @@ import { Company } from '../company';
 export class CompanyTableComponent implements OnInit {
 
   @Input()
+  tableName = "Table1";
+
+  @Input()
   companies: Company[];
 
   @Output()
@@ -20,7 +23,7 @@ export class CompanyTableComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteCompany(company: Company) {
+  deleteCompanyChild(company: Company) {
     this.companyDeleted.emit(company);
   }
 

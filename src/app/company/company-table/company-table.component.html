@@ -1,3 +1,6 @@
+
+<h1> This table name is {{ tableName }} </h1>
+
 <table class="table table-striped">
     <thead>
       <tr>
@@ -15,7 +18,7 @@
         <td> {{ company.phone }} </td>
         <td class='company-buttons'>
           <button class="btn btn-warning"> Edit </button>
-          <button class="btn btn-danger" (click)="deleteCompany(company)"> Delete </button>
+          <button class="btn btn-danger" (click)="deleteCompanyChild(company)"> Delete </button>
         </td>
       </tr>
     </tbody>
