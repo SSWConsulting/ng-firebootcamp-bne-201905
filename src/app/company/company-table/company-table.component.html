@@ -17,9 +17,11 @@
         <td> {{ company.email }} </td>
         <td> {{ company.phone }} </td>
         <td class='company-buttons'>
-          <button class="btn btn-warning"> Edit </button>
+          <button class="btn btn-warning" [routerLink]="['/company', 'edit', company.id]"> Edit </button>
           <button class="btn btn-danger" (click)="deleteCompanyChild(company)"> Delete </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  {{ changes() }}

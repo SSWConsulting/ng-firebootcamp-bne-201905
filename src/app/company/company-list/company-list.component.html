@@ -1,5 +1,5 @@
 <div class="container">
-  <button class="btn btn-success"> Add </button>
+  <button class="btn btn-success float-right" [routerLink]="['/company','new']">Add</button>
 
   <fbc-company-table
   [tableName]="'Jean'"
@@ -7,11 +7,6 @@
   (companyDeleted)="deleteCompany($event)"
   ></fbc-company-table>
 
-  <fbc-company-table
-  [tableName]="'Brendan'"
-  [companies]="companies$ | async"
-  (companyDeleted)="sayHello($event)"
-  ></fbc-company-table>
 
 </div>
 

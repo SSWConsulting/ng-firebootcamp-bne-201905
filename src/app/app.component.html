@@ -1,8 +1,11 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
- </div>
- <fbc-company-list></fbc-company-list>
+<nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand">FireBootCamp CRM</a>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item" [routerLinkActive]="'active'">
+      <a class="nav-link" [routerLink]="['/company/list']">Companies</a>
+    </li>
+  </ul>
+</nav>
+
+ <router-outlet></router-outlet>
 

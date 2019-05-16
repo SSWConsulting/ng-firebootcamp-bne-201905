@@ -29,8 +29,6 @@ export class CompanyListComponent implements OnInit {
     .subscribe(d => this.companies$ = this.companyService.getCompanies());
   }
 
-  sayHello(company: Company){
-    alert("Hello");
-  }
+  
 
 }
