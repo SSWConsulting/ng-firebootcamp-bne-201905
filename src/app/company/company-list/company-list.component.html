@@ -12,13 +12,13 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let company of companies">
+      <tr *ngFor="let company of companies$ | async">
         <td> {{ company.name }} </td>
         <td> {{ company.email }} </td>
         <td> {{ company.phone }} </td>
-        <td>
+        <td class='company-buttons'>
           <button class="btn btn-warning"> Edit </button>
-          <button class="btn btn-danger"> Delete </button>
+          <button class="btn btn-danger" (click)="deleteCompany(company)"> Delete </button>
         </td>
       </tr>
     </tbody>
@@ -26,4 +26,3 @@
 </div>
 
 
-<ngb-datepicker></ngb-datepicker>
