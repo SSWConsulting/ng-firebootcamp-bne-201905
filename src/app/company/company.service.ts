@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Company } from './company';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -25,6 +25,12 @@ export class CompanyService {
 
   deleteCompany(company: Company): Observable<Company> {
     return this.httpClient.delete<Company>(`${this.API_BASE}/company/${company.id}`);
+  }
+
+  addCompany(company: Company): Observable<Company> {
+    return this.httpClient.post<Company>(`${this.API_BASE}/company`, company,
+    { headers: new HttpHeaders().set('content-type', 'application/json') })
+    .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: any): Observable<any> {
