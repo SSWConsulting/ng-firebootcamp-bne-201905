@@ -33,6 +33,17 @@ export class CompanyService {
     .pipe(catchError(this.errorHandler));
   }
 
+  getCompany(id: number): Observable<Company> {
+    return this.httpClient.get<Company>(`${this.API_BASE}/company/${id}`)
+    .pipe(catchError(this.errorHandler));
+  }
+
+  saveCompany(company: Company): Observable<Company> {
+    return this.httpClient.put<Company>(`${this.API_BASE}/company/${company.id}`, company,
+    { headers: new HttpHeaders().set('content-type', 'application/json') })
+    .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error: any): Observable<any> {
     console.error('COMPANY SERVICE ERROR:', error);
     return of({});
