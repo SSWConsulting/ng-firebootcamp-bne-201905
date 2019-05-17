@@ -4,6 +4,9 @@
     <li class="nav-item" [routerLinkActive]="'active'">
       <a class="nav-link" [routerLink]="['/company/list']">Companies (<span id="company-count">{{companiesCount$ | async }}</span>)</a>
     </li>
+    <li class="nav-item" [routerLinkActive]="'active'">
+      <a class="nav-link" [routerLink]="['/admin']"> Admin </a>
+    </li>
   </ul>
 </nav>
 
