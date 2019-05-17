@@ -2,7 +2,7 @@
   <a class="navbar-brand">FireBootCamp CRM</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item" [routerLinkActive]="'active'">
-      <a class="nav-link" [routerLink]="['/company/list']">Companies</a>
+      <a class="nav-link" [routerLink]="['/company/list']">Companies ({{companiesCount$ | async }})</a>
     </li>
   </ul>
 </nav>

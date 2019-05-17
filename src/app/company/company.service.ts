@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Company } from './company';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
@@ -13,24 +13,34 @@ export class CompanyService {
 
   constructor(
     private httpClient: HttpClient
-  ) { }
+  ) {
+    this.loadCompanies();
+  }
 
   API_BASE = 'http://firebootcamp-crm-api.azurewebsites.net/api';
 
+  private companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
+
+  loadCompanies() {
+    this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+    .pipe(catchError(this.errorHandler))
+    .subscribe(companies => this.companies$.next(companies));
+  }
+
   getCompanies(): Observable<Company[]> {
-    console.log('calling httpclient');
-    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
-    .pipe(catchError(this.errorHandler));
+    return this.companies$;
   }
 
-  deleteCompany(company: Company): Observable<Company> {
-    return this.httpClient.delete<Company>(`${this.API_BASE}/company/${company.id}`);
+  deleteCompany(company: Company){
+    return this.httpClient.delete<Company>(`${this.API_BASE}/company/${company.id}`)
+    .subscribe(c => { this.loadCompanies(); });
   }
 
-  addCompany(company: Company): Observable<Company> {
-    return this.httpClient.post<Company>(`${this.API_BASE}/company`, company,
+  addCompany(company: Company)  {
+    this.httpClient.post<Company>(`${this.API_BASE}/company`, company,
     { headers: new HttpHeaders().set('content-type', 'application/json') })
-    .pipe(catchError(this.errorHandler));
+    .pipe(catchError(this.errorHandler))
+    .subscribe(c => this.loadCompanies());
   }
 
   getCompany(id: number): Observable<Company> {
@@ -38,10 +48,11 @@ export class CompanyService {
     .pipe(catchError(this.errorHandler));
   }
 
-  saveCompany(company: Company): Observable<Company> {
-    return this.httpClient.put<Company>(`${this.API_BASE}/company/${company.id}`, company,
+  saveCompany(company: Company) {
+    this.httpClient.put<Company>(`${this.API_BASE}/company/${company.id}`, company,
     { headers: new HttpHeaders().set('content-type', 'application/json') })
-    .pipe(catchError(this.errorHandler));
+    .pipe(catchError(this.errorHandler))
+    .subscribe(c => this.loadCompanies());
   }
 
   errorHandler(error: any): Observable<any> {
