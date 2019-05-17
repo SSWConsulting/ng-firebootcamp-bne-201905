@@ -1,8 +1,8 @@
 <nav class="navbar navbar-light bg-faded">
-  <a class="navbar-brand">FireBootCamp CRM</a>
+  <a class="navbar-brand"><h1>FireBootCamp CRM</h1></a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item" [routerLinkActive]="'active'">
-      <a class="nav-link" [routerLink]="['/company/list']">Companies ({{companiesCount$ | async }})</a>
+      <a class="nav-link" [routerLink]="['/company/list']">Companies (<span id="company-count">{{companiesCount$ | async }}</span>)</a>
     </li>
   </ul>
 </nav>
