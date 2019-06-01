@@ -9,6 +9,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { CompanyTableComponent } from './company/company-table/company-table.component';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+import { StoreModule } from '@ngrx/store';
+import { companyReducer } from './reducers/company.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { CompanyEffects } from './reducers/company.effects';
 
 @NgModule({
   declarations: [
@@ -23,8 +28,14 @@ import { CompanyEditComponent } from './company/company-edit/company-edit.compon
     FormsModule,
     NgbModule.forRoot(),
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({ companies: companyReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 100 //  Retains last 100 states
+    }),
+    EffectsModule.forRoot([CompanyEffects])
   ],
+
   providers: [
   ],
   bootstrap: [AppComponent]

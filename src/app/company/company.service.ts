@@ -5,6 +5,9 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { environment } from 'src/environments/environment';
+import { Store } from '@ngrx/store';
+import { AppState } from '../models/AppState';
+import * as companyActions from '../reducers/company.actions';
 
 
 @Injectable({
@@ -13,35 +16,38 @@ import { environment } from 'src/environments/environment';
 export class CompanyService {
 
   constructor(
-    private httpClient: HttpClient
-  ) {
-    this.loadCompanies();
+    private httpClient: HttpClient,
+    private store: Store<AppState>
+  ) {}
+
+  init() {
+    this.store.dispatch(new companyActions.CompaniesLoad());
   }
 
   API_BASE = environment.API_BASE;
 
-  private companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
-
-  loadCompanies() {
-    this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
-    .pipe(catchError(this.errorHandler))
-    .subscribe(companies => this.companies$.next(companies));
+  loadCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+    .pipe(catchError(this.errorHandler));
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.companies$;
+    return this.store.select(s => s.companies);
   }
 
-  deleteCompany(company: Company){
-    return this.httpClient.delete<Company>(`${this.API_BASE}/company/${company.id}`)
-    .subscribe(c => { this.loadCompanies(); });
+  deleteCompany(company: Company) {
+    this.store.dispatch(new companyActions.CompanyDelete(company));
+  }
+
+  deleteCompanyFromServer(company: Company): Observable<Company> {
+    return this.httpClient.delete<Company>(`${this.API_BASE}/company/${company.id}`);
   }
 
   addCompany(company: Company)  {
     this.httpClient.post<Company>(`${this.API_BASE}/company`, company,
     { headers: new HttpHeaders().set('content-type', 'application/json') })
     .pipe(catchError(this.errorHandler))
-    .subscribe(c => this.loadCompanies());
+    .subscribe(c => this.store.dispatch(new companyActions.CompaniesLoad()));
   }
 
   getCompany(id: number): Observable<Company> {
@@ -53,7 +59,7 @@ export class CompanyService {
     this.httpClient.put<Company>(`${this.API_BASE}/company/${company.id}`, company,
     { headers: new HttpHeaders().set('content-type', 'application/json') })
     .pipe(catchError(this.errorHandler))
-    .subscribe(c => this.loadCompanies());
+    .subscribe(c => this.store.dispatch(new companyActions.CompaniesLoad()));
   }
 
   errorHandler(error: any): Observable<any> {

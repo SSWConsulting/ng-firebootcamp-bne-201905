@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   ) {}
 
     ngOnInit() {
+      this.companyService.init();
       this.companiesCount$ = this.companyService.getCompanies()
         .pipe(map(c => c.length));
     }
